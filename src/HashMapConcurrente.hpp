@@ -27,6 +27,7 @@ class HashMapConcurrente {
 
  private:
     ListaAtomica<hashMapPair> *tabla[HashMapConcurrente::cantLetras];
+    void maximoFila(hashMapPair* max, int index);
 
     static unsigned int hashIndex(std::string clave);
     std::mutex mutexIncrementar;
