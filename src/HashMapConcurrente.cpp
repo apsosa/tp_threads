@@ -93,61 +93,89 @@ hashMapPair HashMapConcurrente::maximo() {
     return *max;
 }
 
-void HashMapConcurrente::maximoFila(hashMapPair* max, int index){
-    for (auto &p : *tabla[index]) {
-        if (p.second > max->second) {
-            max->first = p.first;
-            max->second = p.second;
+void HashMapConcurrente::maximoFila(hashMapPair &max,ListaAtomica<hashMapPair>& tabla,std::mutex &mutexMaximoParalelo){
+    mutexMaximoParalelo.lock();
+    hashMapPair min = std::make_pair("minimo",-1);
+    for (unsigned int i=0;i < tabla.longitud(); i++) {
+        std::cout<< tabla[i].first<< " " << tabla[i].second<< std::endl;
+        if (tabla[i].second > min.second) {
+            max.first = tabla[i].first;
+            max.second = tabla[i].second;
+            min.second = tabla[i].second;
         }
     }
+    std::cout<< "calculo maximo fila"<< std::endl;
+    mutexMaximoParalelo.unlock();    
 }
 
+
+void HashMapConcurrente::maximoFila2(std::vector<hashMapPair> &maximos,ListaAtomica<hashMapPair> *tabla[],std::pair<int,int>& intervalo,std::mutex &mutexMaximoParalelo){
+    mutexMaximoParalelo.lock();
+
+    //std::cout<< "calculo maximo fila"<< std::endl;
+    //std::cout<<"Intervalo: "<< intervalo.first<< ","<< intervalo.second<< std::endl;
+    for (int i = intervalo.first; i < intervalo.second; i++)
+    {
+        for (auto &p : *tabla[i]) {
+            if (p.second > maximos[i].second) {
+                maximos[i].first = p.first;
+                maximos[i].second = p.second;
+            }
+        }
+    }
+    mutexMaximoParalelo.unlock();    
+}
+
+
+/*
+t1 => maxifila => longitud => 0
+t2 => maxifila => longitud => 5
+
+*/
 hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
 
     // Completar (Ejercicio 3)
     std::vector<hashMapPair> maximos(cantLetras);
     std::vector<std::thread> threads(cant_threads);
-    if (cant_threads >= cantLetras){
-        cant_threads = cantLetras;
-        while (cant_threads != 0)
-        {
-            auto &t = threads[cant_threads-1];
-            t = std::thread(maximoFila, maximos[cant_threads-1], cant_threads-1);
-            cant_threads--;
-        }
-    }else{
-        /*
-        La cantidad de thread es menor a la cantidad de filas 
-        0 => maximo en la fila 0 
-        1 => maximo en la fila 1 
-        ....
-
-        10 => maximo en la fila 10
-
-        0 => maximo en la fila 11 
-        */ 
-        int indexThreads = 0; // 10
-        int filas = cantLetras-1;
-        while (filas != 0)
-        {
-            auto &t = threads[indexThreads];
-            t = std::thread(HashMapConcurrente::maximoFila, maximos[filas], cant_threads-1);
-            filas--;
-            indexThreads = (indexThreads + 1) % cant_threads;
-        }
+    std::vector<std::pair<int,int>> intervalos(cant_threads); // [inicio,fin)
+    for (int i = 1; i < maximos.size(); i++)
+    {
+        maximos[i]= std::make_pair("minimo",0);
     }
-    for (auto &t : threads) { 
+    int cantListasAProcesar = cant_threads >= cantLetras ? cantLetras : cantLetras/cant_threads;
+    int inicio= 0;
+    int fin = cantListasAProcesar;
+    for (unsigned int i = 0; i < cant_threads; i++)
+    {
+        intervalos[i].first = inicio;
+        intervalos[i].second = fin;
+        inicio = cantListasAProcesar;
+        fin = cantListasAProcesar + cantListasAProcesar;
+    }
+    int diferecia = 26 - cantListasAProcesar * cant_threads;
+    for (int i = 0; i < diferecia; i++)
+    {
+        intervalos[cant_threads-1].second += 1;   
+    }
+    for (unsigned int i = 0; i < cant_threads; i++)
+    {
+        auto &t = threads[i];
+        t = std::thread(maximoFila2, std::ref(maximos), std::ref(this->tabla),std::ref(intervalos[i]),std::ref(mutexMaximoParalelo));
+
+    }   
+    for (auto &t : threads) {
         t.join();
     }
+    mutexMaximoParalelo.lock();
     hashMapPair max = maximos[0];
     for (int i = 1; i < maximos.size(); i++)
     {
-        hashMapPair p = maximos[i];
-        if (p.second > max.second) {
-            max.first = p.first;
-            max.second = p.second;
+        if (maximos[i].second > max.second) {
+            max.first = maximos[i].first;
+            max.second = maximos[i].second;
         }
     }
+    mutexMaximoParalelo.unlock();
     return max;
 }
 
