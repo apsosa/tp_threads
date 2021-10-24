@@ -95,8 +95,9 @@ hashMapPair HashMapConcurrente::maximo() {
 
 void HashMapConcurrente::maximoFila(hashMapPair &max,ListaAtomica<hashMapPair>& tabla,std::mutex &mutexMaximoParalelo){
     mutexMaximoParalelo.lock();
-    hashMapPair min = std::make_pair("minimo",-1);
-    for (unsigned int i=0;i < tabla.longitud(); i++) {
+    hashMapPair min = std::make_pair("", 0);
+
+    for (unsigned int i = 0; i < tabla.longitud(); i++) {
         std::cout<< tabla[i].first<< " " << tabla[i].second<< std::endl;
         if (tabla[i].second > min.second) {
             max.first = tabla[i].first;
@@ -104,7 +105,7 @@ void HashMapConcurrente::maximoFila(hashMapPair &max,ListaAtomica<hashMapPair>& 
             min.second = tabla[i].second;
         }
     }
-    std::cout<< "calculo maximo fila"<< std::endl;
+    std::cout<< "calculo maximo fila" << std::endl;
     mutexMaximoParalelo.unlock();    
 }
 
@@ -114,8 +115,7 @@ void HashMapConcurrente::maximoFila2(std::vector<hashMapPair> &maximos,ListaAtom
 
     //std::cout<< "calculo maximo fila"<< std::endl;
     //std::cout<<"Intervalo: "<< intervalo.first<< ","<< intervalo.second<< std::endl;
-    for (int i = intervalo.first; i < intervalo.second; i++)
-    {
+    for (int i = intervalo.first; i < intervalo.second; i++) {
         for (auto &p : *tabla[i]) {
             if (p.second > maximos[i].second) {
                 maximos[i].first = p.first;
@@ -138,43 +138,48 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
     std::vector<hashMapPair> maximos(cantLetras);
     std::vector<std::thread> threads(cant_threads);
     std::vector<std::pair<int,int>> intervalos(cant_threads); // [inicio,fin)
-    for (int i = 1; i < maximos.size(); i++)
-    {
-        maximos[i]= std::make_pair("minimo",0);
+
+    for (int i = 1; i < maximos.size(); i++) {
+        maximos[i]= std::make_pair("", 0);
     }
+
     int cantListasAProcesar = cant_threads >= cantLetras ? cantLetras : cantLetras/cant_threads;
     int inicio= 0;
     int fin = cantListasAProcesar;
-    for (unsigned int i = 0; i < cant_threads; i++)
-    {
+
+    for (unsigned int i = 0; i < cant_threads; i++) {
         intervalos[i].first = inicio;
         intervalos[i].second = fin;
         inicio = cantListasAProcesar;
         fin = cantListasAProcesar + cantListasAProcesar;
     }
+
     int diferecia = 26 - cantListasAProcesar * cant_threads;
-    for (int i = 0; i < diferecia; i++)
-    {
+
+    for (unsigned int i = 0; i < diferecia; i++) {
         intervalos[cant_threads-1].second += 1;   
     }
-    for (unsigned int i = 0; i < cant_threads; i++)
-    {
+
+    for (unsigned int i = 0; i < cant_threads; i++) {
         auto &t = threads[i];
         t = std::thread(maximoFila2, std::ref(maximos), std::ref(this->tabla),std::ref(intervalos[i]),std::ref(mutexMaximoParalelo));
 
     }   
+
     for (auto &t : threads) {
         t.join();
     }
+
     mutexMaximoParalelo.lock();
     hashMapPair max = maximos[0];
-    for (int i = 1; i < maximos.size(); i++)
-    {
+
+    for (unsigned int i = 1; i < maximos.size(); i++) {
         if (maximos[i].second > max.second) {
             max.first = maximos[i].first;
             max.second = maximos[i].second;
         }
     }
+
     mutexMaximoParalelo.unlock();
     return max;
 }
