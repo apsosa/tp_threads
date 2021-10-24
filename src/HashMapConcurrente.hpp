@@ -17,6 +17,7 @@ class HashMapConcurrente {
     static constexpr int cantLetras = 26;
 
     HashMapConcurrente();
+    ~HashMapConcurrente();
 
     void incrementar(std::string clave);
     std::vector<std::string> claves();
@@ -24,11 +25,12 @@ class HashMapConcurrente {
 
     hashMapPair maximo();
     hashMapPair maximoParalelo(unsigned int cantThreads);
+    static void maximoPorFila(ListaAtomica<hashMapPair>& lista, std::vector<hashMapPair>& maximos, unsigned int currentThread, std::mutex& paralelos, unsigned int& currentIndex);
 
  private:
     ListaAtomica<hashMapPair> *tabla[HashMapConcurrente::cantLetras];
-    void maximoFila(hashMapPair* max, int index);
 
+    static void saludo(unsigned int numero);
     static unsigned int hashIndex(std::string clave);
     std::mutex mutexIncrementar;
 

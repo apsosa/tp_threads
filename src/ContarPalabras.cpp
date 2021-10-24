@@ -6,22 +6,31 @@
 
 std::mutex mutex_insert;
 int main(int argc, char **argv) {
-    mutex_insert.lock();
-    ListaAtomica<int> list;
-    list.insertar(5);
-    list.insertar(2);
-    list.insertar(3);
-    for (unsigned int i = 0; i < list.longitud(); i++) {
-        /* code */
-        std::cout << list[i] << std::endl;
-    }
 
-    for(auto it = list.begin(); it.operator!=(list.end()) ; it.operator++()) {
-        std::cout << it.operator*() << std::endl;
-    }
-    mutex_insert.unlock();
+    HashMapConcurrente hM;
 
-    
+    hM.incrementar("aaa");
+    hM.incrementar("aaa");
+    hM.incrementar("aaa");
+    hM.incrementar("aaa");
+    hM.incrementar("aaa");
+    hM.incrementar("be");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("estegosaurio");
+    hM.incrementar("estegosaurio");
+    hM.incrementar("bbb");
+
+    hashMapPair actual = hM.maximoParalelo(3);
+
+    std::cout << "actual maximo: " << actual.second << std::endl;
+    /*
     if (argc < 4) {
         std::cout << "Error: faltan argumentos." << std::endl;
         std::cout << std::endl;
@@ -49,6 +58,7 @@ int main(int argc, char **argv) {
     auto maximo = hashMap.maximoParalelo(cantThreadsMaximo);
 
     std::cout << maximo.first << " " << maximo.second << std::endl;
+    */
 
     return 0;
 }
