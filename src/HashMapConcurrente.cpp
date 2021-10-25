@@ -117,8 +117,6 @@ void HashMapConcurrente::maximoFila2(std::vector<hashMapPair> &maximos,ListaAtom
     //std::cout<< "calculo maximo fila"<< std::endl;
     //std::cout<<"Intervalo: "<< intervalo.first<< ","<< intervalo.second<< std::endl;
 
-    std::cout << "intervalo: " << intervalo.first << " hasta " << intervalo.second << std::endl;
-
     for (int i = intervalo.first; i < intervalo.second; i++) {
         for (auto &p : *tabla[i]) {
             if (p.second > maximos[i].second) {
