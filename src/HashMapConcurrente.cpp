@@ -139,6 +139,10 @@ t2 => maxifila => longitud => 5
 hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
 
     // Completar (Ejercicio 3)
+
+    if (cant_threads >= cantLetras) 
+        cant_threads = cantLetras;
+    
     std::vector<hashMapPair> maximos(cantLetras);
     std::vector<std::thread> threads(cant_threads);
     std::vector<std::pair<int,int>> intervalos(cant_threads); // [inicio,fin)
@@ -147,11 +151,9 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
         maximos[i]= std::make_pair("", 0);
     }
 
-    int cantListasAProcesar = cant_threads >= cantLetras ? cantLetras : cantLetras/cant_threads;
+    int cantListasAProcesar = cantLetras / cant_threads;
     int inicio = 0;
     int fin = cantListasAProcesar;
-
-    std::cout << "cantidad de listas a procesar: " << fin << std::endl;
 
     for (unsigned int i = 0; i < cant_threads; i++) {
         if (i == cant_threads - 1) {

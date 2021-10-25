@@ -52,23 +52,25 @@ void cargarMultiplesArchivos(
     std::vector<std::string> filePaths
 ) {
     // Completar (Ejercicio 4)
+
+    unsigned int cantDeArchivos = filePaths.size();
+    if (cantThreads > cantDeArchivos) 
+        cantThreads = cantDeArchivos;
+
     std::vector<std::thread> threads(cantThreads);
     std::vector<std::pair<int,int>> intervalos(cantThreads); // [inicio,fin)
-    unsigned int cantDeArchivos = filePaths.size();
-    unsigned int cantDeArchivosPorThreads = cantThreads >= cantDeArchivos ? cantDeArchivos : cantDeArchivos/cantThreads;
-    int inicio= 0;
+    unsigned int cantDeArchivosPorThreads = cantDeArchivos / cantThreads;
+    int inicio = 0;
     int fin = cantDeArchivosPorThreads;
 
     for (unsigned int i = 0; i < cantThreads; i++) {
+        if (i == cantThreads- 1)
+            fin = cantDeArchivos;
+
         intervalos[i].first = inicio;
         intervalos[i].second = fin;
-        inicio = cantDeArchivosPorThreads;
-        fin = cantDeArchivosPorThreads + cantDeArchivosPorThreads;
-    }
-
-    unsigned int diferecia = cantDeArchivos - cantDeArchivosPorThreads * cantThreads;
-    for (unsigned int i = 0; i < diferecia; i++) {
-        intervalos[cantThreads-1].second += 1; 
+        inicio += cantDeArchivosPorThreads;
+        fin += cantDeArchivosPorThreads;
     }
 
     for (unsigned int i = 0; i < cantThreads; i++) {
