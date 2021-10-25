@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 #include <pthread.h>
-
 #include "HashMapConcurrente.hpp"
 
 int cargarArchivo(

@@ -4,10 +4,11 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <pthread.h>
-
+//#include <pthread.h>
+#include <thread>
+#include <iostream>
 #include "CargarArchivos.hpp"
-
+std::mutex mutexCargaParalela;
 int cargarArchivo(
     HashMapConcurrente &hashMap,
     std::string filePath
@@ -24,6 +25,7 @@ int cargarArchivo(
     }
     while (file >> palabraActual) {
         // Completar (Ejercicio 4)
+        hashMap.incrementar(palabraActual);
         cant++;
     }
     // Cierro el archivo.
@@ -36,6 +38,13 @@ int cargarArchivo(
     return cant;
 }
 
+void cargaDeArchivosPorThreads(HashMapConcurrente &hashMap,std::vector<std::string> &filePaths,std::pair<int,int>& intervalo){
+    mutexCargaParalela.lock();
+    for (int i = intervalo.first; i < intervalo.second; i++) {
+        cargarArchivo(hashMap,filePaths[i]);
+    }
+    mutexCargaParalela.unlock();
+}
 
 void cargarMultiplesArchivos(
     HashMapConcurrente &hashMap,
@@ -43,6 +52,32 @@ void cargarMultiplesArchivos(
     std::vector<std::string> filePaths
 ) {
     // Completar (Ejercicio 4)
+    std::vector<std::thread> threads(cantThreads);
+    std::vector<std::pair<int,int>> intervalos(cantThreads); // [inicio,fin)
+    unsigned int cantDeArchivos = filePaths.size();
+    unsigned int cantDeArchivosPorThreads = cantThreads >= cantDeArchivos ? cantDeArchivos : cantDeArchivos/cantThreads;
+    int inicio= 0;
+    int fin = cantDeArchivosPorThreads;
+
+    for (unsigned int i = 0; i < cantThreads; i++) {
+        intervalos[i].first = inicio;
+        intervalos[i].second = fin;
+        inicio = cantDeArchivosPorThreads;
+        fin = cantDeArchivosPorThreads + cantDeArchivosPorThreads;
+    }
+
+    unsigned int diferecia = cantDeArchivos - cantDeArchivosPorThreads * cantThreads;
+    for (unsigned int i = 0; i < diferecia; i++) {
+        intervalos[cantThreads-1].second += 1; 
+    }
+
+    for (unsigned int i = 0; i < cantThreads; i++) {
+        auto &t = threads[i];
+        t = std::thread(cargaDeArchivosPorThreads, std::ref(hashMap), std::ref(filePaths),std::ref(intervalos[i]));
+    }
+    for (auto &t : threads) {
+        t.join();
+    }
 }
 
 #endif

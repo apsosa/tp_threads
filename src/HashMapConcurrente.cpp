@@ -73,6 +73,7 @@ unsigned int HashMapConcurrente::valor(std::string clave) {
         if (!p.first.compare(clave))
             return p.second;
     }
+    return 0;
 }
 
 hashMapPair HashMapConcurrente::maximo() {
@@ -139,7 +140,7 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
     std::vector<std::thread> threads(cant_threads);
     std::vector<std::pair<int,int>> intervalos(cant_threads); // [inicio,fin)
 
-    for (int i = 1; i < maximos.size(); i++) {
+    for (unsigned int i = 1; i < maximos.size(); i++) {
         maximos[i]= std::make_pair("", 0);
     }
 
@@ -154,7 +155,7 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
         fin = cantListasAProcesar + cantListasAProcesar;
     }
 
-    int diferecia = 26 - cantListasAProcesar * cant_threads;
+    unsigned int diferecia = 26 - cantListasAProcesar * cant_threads;
 
     for (unsigned int i = 0; i < diferecia; i++) {
         intervalos[cant_threads-1].second += 1;   
@@ -163,7 +164,6 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
     for (unsigned int i = 0; i < cant_threads; i++) {
         auto &t = threads[i];
         t = std::thread(maximoFila2, std::ref(maximos), std::ref(this->tabla),std::ref(intervalos[i]),std::ref(mutexMaximoParalelo));
-
     }   
 
     for (auto &t : threads) {
