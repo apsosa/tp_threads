@@ -6,7 +6,21 @@
 
 std::mutex mutex_insert;
 int main(int argc, char **argv) {
-    
+    /*
+    HashMapConcurrente hM;
+    unsigned int threads = std::stoi(argv[1]);
+
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("tiranosaurio");
+    hM.incrementar("estegosaurio");
+    hM.incrementar("estegosaurio");
+
+    hashMapPair actual = hM.maximoParalelo(threads);
+    std::cout << "maximo: " << actual.first << " con " << actual.second << " aparaciciones" << std::endl;
+    */
+
     if (argc < 4) {
         std::cout << "Error: faltan argumentos." << std::endl;
         std::cout << std::endl;

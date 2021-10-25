@@ -116,6 +116,9 @@ void HashMapConcurrente::maximoFila2(std::vector<hashMapPair> &maximos,ListaAtom
 
     //std::cout<< "calculo maximo fila"<< std::endl;
     //std::cout<<"Intervalo: "<< intervalo.first<< ","<< intervalo.second<< std::endl;
+
+    std::cout << "intervalo: " << intervalo.first << " hasta " << intervalo.second << std::endl;
+
     for (int i = intervalo.first; i < intervalo.second; i++) {
         for (auto &p : *tabla[i]) {
             if (p.second > maximos[i].second) {
@@ -145,20 +148,20 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
     }
 
     int cantListasAProcesar = cant_threads >= cantLetras ? cantLetras : cantLetras/cant_threads;
-    int inicio= 0;
+    int inicio = 0;
     int fin = cantListasAProcesar;
 
+    std::cout << "cantidad de listas a procesar: " << fin << std::endl;
+
     for (unsigned int i = 0; i < cant_threads; i++) {
+        if (i == cant_threads - 1) {
+            fin = cantLetras;
+        }
+
         intervalos[i].first = inicio;
         intervalos[i].second = fin;
-        inicio = cantListasAProcesar;
-        fin = cantListasAProcesar + cantListasAProcesar;
-    }
-
-    unsigned int diferecia = 26 - cantListasAProcesar * cant_threads;
-
-    for (unsigned int i = 0; i < diferecia; i++) {
-        intervalos[cant_threads-1].second += 1;   
+        inicio += cantListasAProcesar ;
+        fin += cantListasAProcesar;
     }
 
     for (unsigned int i = 0; i < cant_threads; i++) {
