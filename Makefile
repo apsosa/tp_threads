@@ -31,4 +31,4 @@ debug: CXXFLAGS += -DDEBUG -g
 debug: all
 
 clean:
-	-@rm -rvf $(BUILD_DIR)/*
+	-@rm -rvf $(BUILD_DIR)/* output/*
