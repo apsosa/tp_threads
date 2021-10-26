@@ -26,6 +26,6 @@ do
     awk '{print $1}' temp.txt | sort &> sorted.txt
     sed -n 3p sorted.txt > median.txt
     awk -v threads_lectura=1 -v threads_maximo=$i -v salida=$maximo '{print threads_lectura","threads_maximo","$1","salida}' median.txt &>> output/salida.csv
-    rm temp.txt out.txt sorted.txt
+    rm temp.txt out.txt sorted.txt median.txt
 done
 
