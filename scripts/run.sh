@@ -9,7 +9,6 @@ cd ..
 make clean
 make
 rm -rf temp.txt out.txt
-mkdir output
 
 echo $FORMAT > output/salida.csv
 
