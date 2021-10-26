@@ -4,23 +4,9 @@
 #include "ListaAtomica.hpp"
 #include <mutex>       // std::mutex
 
+
 std::mutex mutex_insert;
 int main(int argc, char **argv) {
-    /*
-    HashMapConcurrente hM;
-    unsigned int threads = std::stoi(argv[1]);
-
-    hM.incrementar("tiranosaurio");
-    hM.incrementar("tiranosaurio");
-    hM.incrementar("tiranosaurio");
-    hM.incrementar("tiranosaurio");
-    hM.incrementar("estegosaurio");
-    hM.incrementar("estegosaurio");
-
-    hashMapPair actual = hM.maximoParalelo(threads);
-    std::cout << "maximo: " << actual.first << " con " << actual.second << " aparaciciones" << std::endl;
-    */
-
     if (argc < 4) {
         std::cout << "Error: faltan argumentos." << std::endl;
         std::cout << std::endl;
@@ -35,6 +21,7 @@ int main(int argc, char **argv) {
             << "Archivos a procesar." << std::endl;
         return 1;
     }
+    auto start = std::chrono::steady_clock::now();
     int cantThreadsLectura = std::stoi(argv[1]);
     int cantThreadsMaximo = std::stoi(argv[2]);
 
@@ -46,7 +33,9 @@ int main(int argc, char **argv) {
     HashMapConcurrente hashMap{}; // = HashMapConcurrente();
     cargarMultiplesArchivos(hashMap, cantThreadsLectura, filePaths);
     auto maximo = hashMap.maximoParalelo(cantThreadsMaximo);
-
+    auto end = std::chrono::steady_clock::now();
+    double total_time = std::chrono::duration<double, std::milli>(end - start).count();
+    std::clog << total_time << std::endl;
     std::cout << maximo.first << " " << maximo.second << std::endl;
 
     return 0;
