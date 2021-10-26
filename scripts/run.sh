@@ -8,7 +8,7 @@ file1='data/corpus'
 cd ..
 make clean
 make
-rm -rf output temp.txt out.txt
+rm -rf temp.txt out.txt
 mkdir output
 
 echo $FORMAT > output/salida.csv
