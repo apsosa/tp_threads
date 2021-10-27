@@ -17,6 +17,7 @@ echo $FORMAT > output/salida.csv
 for file in data/random-sin-repetidos/*
 do
     files=$(basename "$file")
+    echo $FORMAT > output/salida-$files.csv
     echo $files
     for i in {1..26}
     do  
@@ -40,6 +41,7 @@ done
 for file in data/random-con-repetidos/*
 do
     files=$(basename "$file")
+    echo $FORMAT > output/salida-$files.csv
     echo $files
     for i in {1..26}
     do  
