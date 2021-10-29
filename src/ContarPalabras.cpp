@@ -21,7 +21,8 @@ int main(int argc, char **argv) {
             << "Archivos a procesar." << std::endl;
         return 1;
     }
-    auto start = std::chrono::steady_clock::now();
+    /*Con Concurrencia*/
+    /*
     int cantThreadsLectura = std::stoi(argv[1]);
     int cantThreadsMaximo = std::stoi(argv[2]);
 
@@ -29,14 +30,25 @@ int main(int argc, char **argv) {
     for (int i = 3; i < argc; i++) {
         filePaths.push_back(argv[i]);
     }
-
     HashMapConcurrente hashMap{}; // = HashMapConcurrente();
     cargarMultiplesArchivos(hashMap, cantThreadsLectura, filePaths);
+    auto start = std::chrono::steady_clock::now();
     auto maximo = hashMap.maximoParalelo(cantThreadsMaximo);
     auto end = std::chrono::steady_clock::now();
+    */
+   
+    /*Sin Concurrencia*/
+    HashMapConcurrente hashMap{};
+    for (int i = 3; i < argc; i++) {
+        cargarArchivo(hashMap,argv[i]);
+    }
+    auto start = std::chrono::steady_clock::now();
+    auto maximo = hashMap.maximo();
+    auto end = std::chrono::steady_clock::now();
+    
     double total_time = std::chrono::duration<double, std::milli>(end - start).count();
+
     std::clog << total_time << std::endl;
     std::cout << maximo.first << " " << maximo.second << std::endl;
-
     return 0;
 }
