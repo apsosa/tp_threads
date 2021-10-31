@@ -97,12 +97,12 @@ hashMapPair HashMapConcurrente::maximo() {
 
 
 
-void HashMapConcurrente::maximoFila2(std::vector<hashMapPair> &maximos,ListaAtomica<hashMapPair> *tabla[],std::pair<int,int>& intervalo,sem_t& incrementarYMaximo){
+void HashMapConcurrente::maximoFila(std::vector<hashMapPair> &maximos,ListaAtomica<hashMapPair> *tabla[],std::pair<int,int>& intervalo,sem_t& incrementarYMaximo){
     //mutexMaximoParalelo.lock();
-    sem_wait(&incrementarYMaximo);
     //std::cout<< "calculo maximo fila"<< std::endl;
     //std::cout<<"Intervalo: "<< intervalo.first<< ","<< intervalo.second<< std::endl;
 
+    sem_wait(&incrementarYMaximo);
     for (int i = intervalo.first; i < intervalo.second; i++) {
         for (auto &p : *tabla[i]) {
             if (p.second > maximos[i].second) {
@@ -153,7 +153,7 @@ hashMapPair HashMapConcurrente::maximoParalelo(unsigned int cant_threads) {
 
     for (unsigned int i = 0; i < cant_threads; i++) {
         auto &t = threads[i];
-        t = std::thread(maximoFila2, std::ref(maximos), std::ref(this->tabla),std::ref(intervalos[i]),std::ref(incrementarYMaximo));
+        t = std::thread(maximoFila, std::ref(maximos), std::ref(this->tabla),std::ref(intervalos[i]),std::ref(incrementarYMaximo));
     }   
 
     for (auto &t : threads) {
