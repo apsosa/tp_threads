@@ -10,7 +10,7 @@ make clean
 make
 rm -rf temp.txt out.txt
 
-echo $FORMAT > output/salida.csv
+mkdir -p $directoryRepetidos $directoryNoRepetidos
 
 # Para los sin repetidos
 
