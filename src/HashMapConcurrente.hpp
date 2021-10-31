@@ -25,7 +25,7 @@ class HashMapConcurrente {
     hashMapPair maximo();
     hashMapPair maximoParalelo(unsigned int cantThreads);
     static void maximoFila(hashMapPair &max,ListaAtomica<hashMapPair> &tabla,std::mutex &mutexMaximoParalelo);
-    static void maximoFila2(std::vector<hashMapPair> &maximos,ListaAtomica<hashMapPair> *tabla[],std::pair<int,int>& intervalo,std::mutex &mutexMaximoParalelo);
+    static void maximoFila2(std::vector<hashMapPair> &maximos,ListaAtomica<hashMapPair> *tabla[],std::pair<int,int>& intervalo,sem_t& incrementarYMaximo);
 
 
  private:
