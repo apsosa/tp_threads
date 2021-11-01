@@ -5,9 +5,9 @@ FORMAT="threads_lectura,thread_maximo,tiempo,output"
 directory="data/CargaDeArchivos"
 
 cd ..
-#make clean
-#make
-#rm -rf temp.txt out.txt
+make clean
+make
+rm -rf temp.txt out.txt
 
 # Vamos a ejecutar CargarArchivos con muchos archivos
 
