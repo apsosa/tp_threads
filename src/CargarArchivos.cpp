@@ -39,11 +39,9 @@ int cargarArchivo(
 }
 
 void cargaDeArchivosPorThreads(HashMapConcurrente &hashMap,std::vector<std::string> &filePaths,std::pair<int,int>& intervalo){
-    mutexCargaParalela.lock();
     for (int i = intervalo.first; i < intervalo.second; i++) {
         cargarArchivo(hashMap,filePaths[i]);
     }
-    mutexCargaParalela.unlock();
 }
 
 void cargarMultiplesArchivos(
