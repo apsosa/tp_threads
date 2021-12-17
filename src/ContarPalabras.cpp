@@ -7,6 +7,7 @@
 
 std::mutex mutex_insert;
 int main(int argc, char **argv) {
+
     if (argc < 4) {
         std::cout << "Error: faltan argumentos." << std::endl;
         std::cout << std::endl;
@@ -21,6 +22,7 @@ int main(int argc, char **argv) {
             << "Archivos a procesar." << std::endl;
         return 1;
     }
+
     /*Con Concurrencia*/
     /*
     int cantThreadsLectura = std::stoi(argv[1]);
@@ -39,6 +41,7 @@ int main(int argc, char **argv) {
     
     /*Sin Concurrencia*/
     
+    /*
     HashMapConcurrente hashMap{};
     for (int i = 3; i < argc; i++) {
         cargarArchivo(hashMap,argv[i]);
@@ -51,5 +54,6 @@ int main(int argc, char **argv) {
     double total_time = std::chrono::duration<double, std::milli>(end - start).count();
     std::clog << total_time << std::endl;
     std::cout << maximo.first << " " << maximo.second << std::endl;
+    */
     return 0;
 }

@@ -2,6 +2,7 @@
 
 ## Estructura
 * En la carpeta `src` encontrarán el código que deben completar.
+* En la carpeta `experimentacion` encontrará el código ejecutable correr los experimentos
 * En la carpeta `data` encontrarán algunos archivos que pueden usar para probar
   su solución. Les recomendamos que hagan pruebas con otros archivos, en
   particular, archivos de mayor tamaño.
@@ -13,6 +14,7 @@
   awk -f contar-palabras.awk <archivo> | sort -nk 2
   ```
   Las palabras más repetidas aparecerán al final del output.
+ 
 
 ## Compilación
 * El `Makefile` debería permitirles compilar el código con el comando `make`.
@@ -26,6 +28,10 @@
   * `threads_maximo` es la cantidad de threads que se usará para computar
     la palabra con más apariciones, y
   * `archivo1`, `archivo2`, etc. son los nombres de los archivos a procesar.
+
+## Experimentación
+* Para los experimentos será necesario de forma imprecindible la instalación de `jupyter notebook`. Para lograrlo de contar con el programa pip o pip3 se puede instalar fácilmente con el comando `pip3 install notebook`
+* Una vez instalado pararse en el directorio experimentación en la raiz del proyecto y ejecutar el comando `jupyter notebook`  
 
 ## Tests
 * Ejecutando `make test` podrán compilar y ejecutar una pequeña suite de tests

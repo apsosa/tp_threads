@@ -34,16 +34,15 @@ class ListaAtomica {
     void insertar(const T &valor) {
         
         // Completar (Ejercicio 1)
-        mutexInsert.lock();
+        Nodo* viejoNodo = _cabeza.load();
         Nodo* nuevoNodo = new Nodo(valor); 
-        if (_cabeza.load() == nullptr) {
-            _cabeza.store(nuevoNodo);
-        } else {
-            nuevoNodo->_siguiente = _cabeza.load();   
-            _cabeza.store(nuevoNodo);
+
+        if (_cabeza.compare_exchange_weak(viejoNodo, nuevoNodo)) {
+            nuevoNodo->_siguiente = viejoNodo;   
         }
-        mutexInsert.unlock();
+             
     }
+
 
     T& operator[](size_t i) const {
         Nodo *n = _cabeza.load();
