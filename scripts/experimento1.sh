@@ -14,6 +14,8 @@ mkdir -p $directoryRepetidos $directoryNoRepetidos
 
 # Para los sin repetidos
 
+echo "LA SALIDA DE ESTE EJECUTABLE SE ENCUENTRA EN LA CARPETA OUTPUT EN LA RAIZ DEL PROYECTO"
+
 for file in data/random-sin-repetidos/*
 do
     files=$(basename "$file")
