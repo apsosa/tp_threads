@@ -11,10 +11,10 @@ cd ..
 make clean
 make
 rm -rf temp.txt out.txt
+rm -rf output/experimento1/sin_concurrencia/*
+rm -rf output/experimento1/con_concurrencia/*
 
-mkdir -p $directoryRepetidos $directoryNoRepetidos
-
-# Para los sin repetidos
+mkdir -p $directoryRepetidos 
 
 echo "######################################################################################"
 echo "LA SALIDA DE ESTE EJECUTABLE SE ENCUENTRA EN LA CARPETA OUTPUT EN LA RAIZ DEL PROYECTO"
@@ -50,7 +50,6 @@ for file in data/random-con-repetidos/*
 do
     files=$(basename "$file")
     echo $FORMAT > output/experimento1/con_concurrencia/salida-$files.csv
-
     echo $files
     for i in {1..26}
     do  

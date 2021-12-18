@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
         */
 
         std::vector<std::string> filePaths = {};
-        for (int i = 3; i < argc; i++) {
+        for (int i = 4; i < argc; i++) {
             filePaths.push_back(argv[i]);
         }
 
