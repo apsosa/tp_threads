@@ -5,6 +5,9 @@ FORMAT="threads_lectura,thread_maximo,tiempo_mediana,output"
 directoryRepetidos="data/random-con-repetidos"
 directoryNoRepetidos="data/random-sin-repetidos"
 
+sinConcurrencia=0
+conConcurrencia=1
+
 cd ..
 make clean
 make
@@ -14,7 +17,9 @@ mkdir -p $directoryRepetidos $directoryNoRepetidos
 
 # Para los sin repetidos
 
+echo "######################################################################################"
 echo "LA SALIDA DE ESTE EJECUTABLE SE ENCUENTRA EN LA CARPETA OUTPUT EN LA RAIZ DEL PROYECTO"
+echo "######################################################################################"
 
 for file in data/random-sin-repetidos/*
 do
@@ -25,7 +30,7 @@ do
     do  
         for j in {1..5} 
         do        
-            ./build/ContarPalabras 1 $i $file &> out.txt
+            ./build/ContarPalabras 1 $i $conConcurrencia $file &> out.txt
             DATA=$(<out.txt)
             echo $DATA &>> temp.txt
         done 
@@ -49,7 +54,7 @@ do
     do  
         for j in {1..5} 
         do        
-            ./build/ContarPalabras 1 $i $file &> out.txt
+            ./build/ContarPalabras 1 $i $conConcurrencia $file  &> out.txt
             DATA=$(<out.txt)
             echo $DATA &>> temp.txt
         done 
