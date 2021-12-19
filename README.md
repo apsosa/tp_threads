@@ -1,19 +1,6 @@
 # Trabajo práctico 1 - Threading
 
-## Estructura
-* En la carpeta `src` encontrarán el código que deben completar.
-* En la carpeta `experimentacion` encontrará el código ejecutable correr los experimentos
-* En la carpeta `data` encontrarán algunos archivos que pueden usar para probar
-  su solución. Les recomendamos que hagan pruebas con otros archivos, en
-  particular, archivos de mayor tamaño.
-* En la carpeta `scripts` encontrarán un script de `awk` que pueden usar para
-  contar la cantidad de apariciones de palabras en un archivo. Combinando con
-  el comando `sort` pueden usarlo para averiguar las palabras con más
-  apariciones y contrastar con su solución, ejecutando:
-  ```
-  awk -f contar-palabras.awk <archivo> | sort -nk 2
-  ```
-  Las palabras más repetidas aparecerán al final del output.
+
  
 
 ## Compilación
@@ -30,8 +17,17 @@
   * `archivo1`, `archivo2`, etc. son los nombres de los archivos a procesar.
 
 ## Experimentación
-* Para los experimentos será necesario de forma imprecindible la instalación de `jupyter notebook`. Para lograrlo de contar con el programa pip o pip3 se puede instalar fácilmente con el comando `pip3 install notebook`
-* Una vez instalado pararse en el directorio experimentación en la raiz del proyecto y ejecutar el comando `jupyter notebook`  
+
+Antes que nada para la experimentación se crearon unos archivos llamados `experimento1.sh` y `experimento2.sh` los cuales son los encargados de ejectar los experimentos. Además de eso será necesario de forma imprecindible la instalación de `jupyter notebook` para poder ejecutar de manera ordenada los datasets creados en el mismo programa y también los gráficos de nuestro proyecto.
+
+Para lograrlo de contar con el programa pip o pip3.
+* Aquí encontrará información para instalar pip https://pip.pypa.io/en/stable/
+* Una vez instalado pip o pip3 ustede deberá ejecutar el siguiente comando: `pip install notebook` o en su defecto `pip3 install notebook`. Esta misma notebook ya instala las dependencias necesarias para poder replciar nuestro proyecto.    
+Una vez instalado pararse en el directorio `experimentación` en la raiz del proyecto y ejecutar el comando `jupyter notebook`.
+
+Una vez dentro de de jupyter notebook usted entontrará 2 archivos.
+* Uno llamado `generador-de-instancias` el cual genera los datasets que utilizamos en nuestros experimentos y además de ello ejecuta los arhivos .sh para guardar los resultados en archivos .csv
+* Y el otro `graficos` el cual levanta los archivos .csv generados y se encarga de graficar el trabajo realizado.
 
 ## Tests
 * Ejecutando `make test` podrán compilar y ejecutar una pequeña suite de tests

@@ -30,9 +30,7 @@ int main(int argc, char **argv) {
     int cantThreadsLectura = std::stoi(argv[1]);
     int cantThreadsMaximo = std::stoi(argv[2]);
     
-    std::cout << "BUENAS" << std::endl;
     int concurrente = std::stoi(argv[3]);
-    std::cout << concurrente << std::endl;
 
     if (concurrente == 0) {
         /*
