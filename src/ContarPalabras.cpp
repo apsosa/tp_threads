@@ -29,7 +29,10 @@ int main(int argc, char **argv) {
 
     int cantThreadsLectura = std::stoi(argv[1]);
     int cantThreadsMaximo = std::stoi(argv[2]);
+    
+    std::cout << "BUENAS" << std::endl;
     int concurrente = std::stoi(argv[3]);
+    std::cout << concurrente << std::endl;
 
     if (concurrente == 0) {
         /*
@@ -38,6 +41,7 @@ int main(int argc, char **argv) {
 
         std::vector<std::string> filePaths = {};
         for (int i = 4; i < argc; i++) {
+            std::cout << argv[i] << std::endl;
             filePaths.push_back(argv[i]);
         }
 
@@ -61,6 +65,7 @@ int main(int argc, char **argv) {
 
         std::vector<std::string> filePaths = {};
         for (int i = 4; i < argc; i++) {
+            std::cout << argv[i] << std::endl;
             filePaths.push_back(argv[i]);
         }
 
@@ -78,52 +83,6 @@ int main(int argc, char **argv) {
         std::cout << maximo.first << " " << maximo.second << std::endl;
  
     }
-
-    ///*
-    //std::vector<std::string> filePaths = {};
-    //for (int i = 3; i < argc; i++) {
-    //    filePaths.push_back(argv[i]);
-    //}
-
-    //HashMapConcurrente hashMap{}; // = HashMapConcurrente();
-    //cargarMultiplesArchivos(hashMap, cantThreadsLectura, filePaths);
-    //auto maximo = hashMap.maximoParalelo(cantThreadsMaximo);
-
-    //std::cout << maximo.first << " " << maximo.second << std::endl;
-
-    //if (threads_lectura == 1 && concurrente == 0) {
-    //    /*  
-    //        Utiliza el método máximo sin concurrencia y con un único thread de lectura
-    //    */
-    //    HashMapConcurrente hashMap{};
-    //    for (int i = 3; i < argc; i++) { 
-    //        // CARGAMOS EL RESTO DE ARCHIVOS
-    //        cargarArchivo(hashMap,argv[i]);
-    //    }
-
-    //    auto maximo = hashMap.maximo();
-    //    
-    
-    //    double total_time = std::chrono::duration<double, std::milli>(end - start).count();
-    //    std::clog << total_time << std::endl;
-    //    std::cout << maximo.first << " " << maximo.second << std::endl;
-    //} else {
-    //    /*
-    //        Utiliza el método máximo con concurrencia
-    //    */
-    //    HashMapConcurrente hashMap{}; // = HashMapConcurrente();
-
-
-    //    std::vector<std::string> filePaths = {};
-    //    for (int i = 3; i < argc; i++) {
-    //        filePaths.push_back(argv[i]);
-    //    }
-
-    //    cargarMultiplesArchivos(hashMap, threads_lectura, filePaths);
-    //    auto start = std::chrono::steady_clock::now();
-    //    auto maximo = hashMap.maximoParalelo(threads_maximo);
-    //    auto end = std::chrono::steady_clock::now();
-    //}
 
     return 0;
 }
