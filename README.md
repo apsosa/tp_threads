@@ -15,6 +15,7 @@
   * `threads_maximo` es la cantidad de threads que se usará para computar
     la palabra con más apariciones, y
   * `archivo1`, `archivo2`, etc. son los nombres de los archivos a procesar.
+  * ### NUEVO: Agregamos un nuevo parámetro al ejecutable para poder correr maximo de manera concurrente o no cuando lo deseemos.
 
 ## Experimentación
 
