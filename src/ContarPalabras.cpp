@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 
         /*********************************************************/
         auto start = std::chrono::steady_clock::now();
-        auto maximo = hashMap.maximoParalelo(cantThreadsMaximo);
+        auto maximo = hashMap.maximo();
         auto end = std::chrono::steady_clock::now();
         /*********************************************************/
 
